@@ -7,19 +7,34 @@ def main():
     print("Starting asteroids!")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
     gametime = pygame.time.Clock()
+
+    #create groups
+    updateable =  pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    
+    # add Player class to group containers
+    Player.containers = (updateable, drawable)
+
     # Calculate x and y to spawn the player in the middle of the screen
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     
     # Create a Player instance
     player = Player(x, y)
+
+
     dt = 0 #
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
         screen.fill("black")
-        player.draw(screen)
+        
+        for entry in updateable:
+            entry.update(dt)
+
+        for entry in drawable:
+            entry.draw(screen)
 
         pygame.display.flip()
 
