@@ -3,6 +3,8 @@ from constants import *
 from player import *
 from asteroid import *
 from asteroidfield import *
+from shot import *
+import sys
 
 def main():
     pygame.init()
@@ -14,11 +16,13 @@ def main():
     updateable =  pygame.sprite.Group()
     drawable = pygame.sprite.Group()
     asteroids = pygame.sprite.Group()
+    shots = pygame.sprite.Group()
     
     # add Player class to group containers
     Player.containers = (updateable, drawable)
     Asteroid.containers = (asteroids, updateable, drawable)
     AsteroidField.containers = (updateable)
+    Shot.containers = (shots, updateable, drawable)
 
 
     # Calculate x and y to spawn the player in the middle of the screen
@@ -44,6 +48,17 @@ def main():
             entry.draw(screen)
 
         pygame.display.flip()
+        for object in asteroids:
+            if object.is_collision(player):
+                print("Game over!")
+                sys.exit()
+            
+            for bullet in shots:
+                if object.is_collision(bullet):
+                    object.split()
+                    bullet.kill()
+        
+
 
         #end of loop
         #limit to 60 fps
