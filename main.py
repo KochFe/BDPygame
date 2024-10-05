@@ -1,6 +1,8 @@
 import pygame
 from constants import *
 from player import *
+from asteroid import *
+from asteroidfield import *
 
 def main():
     pygame.init()
@@ -11,16 +13,21 @@ def main():
     #create groups
     updateable =  pygame.sprite.Group()
     drawable = pygame.sprite.Group()
+    asteroids = pygame.sprite.Group()
     
     # add Player class to group containers
     Player.containers = (updateable, drawable)
+    Asteroid.containers = (asteroids, updateable, drawable)
+    AsteroidField.containers = (updateable)
+
 
     # Calculate x and y to spawn the player in the middle of the screen
     x = SCREEN_WIDTH / 2
     y = SCREEN_HEIGHT / 2
     
-    # Create a Player instance
+    # Create an instance
     player = Player(x, y)
+    asteroidfield = AsteroidField()
 
 
     dt = 0 #
